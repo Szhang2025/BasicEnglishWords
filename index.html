@@ -295,6 +295,20 @@
       font-weight: 600;
       color: #1f3a5f;
     }
+    .warning-box {
+      background: #fdf0d5;
+      border: 2px solid #f5c542;
+      border-radius: 20px;
+      padding: 16px;
+      text-align: center;
+      margin: 10px 0;
+      color: #6b4a1a;
+    }
+    .warning-box strong {
+      font-size: 1.2rem;
+      display: block;
+      margin-bottom: 4px;
+    }
   </style>
 </head>
 <body>
@@ -314,7 +328,7 @@
     </div>
     <div class="nav-controls">
       <button class="nav-btn" id="prevBtn">◀ Prev</button>
-      <span class="counter" id="wordCounter">1 / 200</span>
+      <span class="counter" id="wordCounter">1 / 600</span>
       <button class="nav-btn" id="nextBtn">Next ▶</button>
     </div>
     <div class="stats-badge">
@@ -332,141 +346,722 @@
       <div id="quizContent"></div>
     </div>
   </div>
-  <div class="footer">🌟 daily nouns · verbs · sentences</div>
+  <div class="footer">🌟 200 nouns · 200 verbs · 200 sentences</div>
 </div>
 
 <script>
 (function() {
   // ============================================================
-  // COMPLETE WORD LIST - CLEANLY SEPARATED BY TYPE
+  // 200 NOUNS + 200 VERBS + 200 SENTENCES = 600 WORDS
   // ============================================================
   
-  const WORDS = [
-    // NOUNS
-    { word: "apple", type: "noun", group: "food", blank: "I eat a red ___ for a snack." },
-    { word: "pizza", type: "noun", group: "food", blank: "I order a ___ with cheese." },
-    { word: "burger", type: "noun", group: "food", blank: "I eat a ___ with fries." },
-    { word: "cake", type: "noun", group: "food", blank: "We have a ___ with candles." },
-    { word: "cookie", type: "noun", group: "food", blank: "I like a chocolate chip ___." },
-    { word: "milk", type: "noun", group: "food", blank: "I pour cold ___ on my cereal." },
-    { word: "juice", type: "noun", group: "food", blank: "I drink orange ___ in the morning." },
-    { word: "bread", type: "noun", group: "food", blank: "I make a sandwich with ___." },
-    { word: "cheese", type: "noun", group: "food", blank: "A mouse likes to eat ___." },
-    { word: "egg", type: "noun", group: "food", blank: "I eat a white ___ for breakfast." },
+  // ========== 200 NOUNS ==========
+  const NOUNS = [
+    // Food (30)
+    { word: "apple", group: "food", blank: "I eat a red ___ for a snack." },
+    { word: "pizza", group: "food", blank: "I order a ___ with cheese." },
+    { word: "burger", group: "food", blank: "I eat a ___ with fries." },
+    { word: "cake", group: "food", blank: "We have a ___ with candles." },
+    { word: "cookie", group: "food", blank: "I like a chocolate chip ___." },
+    { word: "milk", group: "food", blank: "I pour cold ___ on my cereal." },
+    { word: "juice", group: "food", blank: "I drink orange ___." },
+    { word: "bread", group: "food", blank: "I make a sandwich with ___." },
+    { word: "cheese", group: "food", blank: "A mouse likes to eat ___." },
+    { word: "egg", group: "food", blank: "I eat a white ___ for breakfast." },
+    { word: "rice", group: "food", blank: "I eat ___ with chopsticks." },
+    { word: "pasta", group: "food", blank: "I like ___ with tomato sauce." },
+    { word: "salad", group: "food", blank: "I eat a ___ with vegetables." },
+    { word: "soup", group: "food", blank: "I eat hot ___ with a spoon." },
+    { word: "sandwich", group: "food", blank: "I make a ___ for lunch." },
+    { word: "toast", group: "food", blank: "I eat ___ with butter." },
+    { word: "jam", group: "food", blank: "I spread ___ on my bread." },
+    { word: "honey", group: "food", blank: "___ is sweet and sticky." },
+    { word: "butter", group: "food", blank: "I spread ___ on my toast." },
+    { word: "yogurt", group: "food", blank: "I eat ___ for breakfast." },
+    { word: "cereal", group: "food", blank: "I eat ___ with milk." },
+    { word: "oatmeal", group: "food", blank: "I eat hot ___ in the morning." },
+    { word: "pancake", group: "food", blank: "I eat a ___ with syrup." },
+    { word: "waffle", group: "food", blank: "I eat a ___ with strawberries." },
+    { word: "muffin", group: "food", blank: "I eat a ___ with blueberries." },
+    { word: "donut", group: "food", blank: "I eat a ___ with a hole." },
+    { word: "bagel", group: "food", blank: "I eat a ___ with cream cheese." },
+    { word: "taco", group: "food", blank: "I eat a ___ with salsa." },
+    { word: "burrito", group: "food", blank: "I eat a ___ wrapped in a tortilla." },
+    { word: "sushi", group: "food", blank: "I eat ___ with soy sauce." },
     
-    { word: "dog", type: "noun", group: "animals", blank: "A ___ wags its tail when happy." },
-    { word: "cat", type: "noun", group: "animals", blank: "A ___ purrs when you pet it." },
-    { word: "fish", type: "noun", group: "animals", blank: "A ___ lives underwater." },
-    { word: "bird", type: "noun", group: "animals", blank: "A ___ can fly and build a nest." },
+    // Animals (20)
+    { word: "dog", group: "animals", blank: "A ___ wags its tail." },
+    { word: "cat", group: "animals", blank: "A ___ purrs when you pet it." },
+    { word: "fish", group: "animals", blank: "A ___ lives underwater." },
+    { word: "bird", group: "animals", blank: "A ___ can fly." },
+    { word: "horse", group: "animals", blank: "I ride a ___." },
+    { word: "cow", group: "animals", blank: "A ___ gives us milk." },
+    { word: "pig", group: "animals", blank: "A ___ is pink and muddy." },
+    { word: "sheep", group: "animals", blank: "A ___ gives us wool." },
+    { word: "goat", group: "animals", blank: "A ___ eats grass." },
+    { word: "duck", group: "animals", blank: "A ___ quacks." },
+    { word: "chicken", group: "animals", blank: "A ___ lays eggs." },
+    { word: "rabbit", group: "animals", blank: "A ___ hops fast." },
+    { word: "elephant", group: "animals", blank: "An ___ has a trunk." },
+    { word: "giraffe", group: "animals", blank: "A ___ has a long neck." },
+    { word: "lion", group: "animals", blank: "A ___ is the king of beasts." },
+    { word: "tiger", group: "animals", blank: "A ___ has orange stripes." },
+    { word: "bear", group: "animals", blank: "A ___ hibernates in winter." },
+    { word: "monkey", group: "animals", blank: "A ___ swings in trees." },
+    { word: "dolphin", group: "animals", blank: "A ___ is a smart mammal." },
+    { word: "whale", group: "animals", blank: "A ___ is the largest animal." },
     
-    { word: "soap", type: "noun", group: "bathroom", blank: "I use ___ to wash my hands." },
-    { word: "towel", type: "noun", group: "bathroom", blank: "I dry my hands with a ___." },
-    { word: "brush", type: "noun", group: "bathroom", blank: "I use a ___ for my hair." },
-    { word: "comb", type: "noun", group: "bathroom", blank: "I use a ___ for my hair." },
-    { word: "toothpaste", type: "noun", group: "bathroom", blank: "I put ___ on my toothbrush." },
-    { word: "shampoo", type: "noun", group: "bathroom", blank: "I wash my hair with ___." },
+    // Bathroom (10)
+    { word: "soap", group: "bathroom", blank: "I use ___ to wash my hands." },
+    { word: "towel", group: "bathroom", blank: "I dry with a ___." },
+    { word: "brush", group: "bathroom", blank: "I use a ___ for my hair." },
+    { word: "comb", group: "bathroom", blank: "I use a ___ for my hair." },
+    { word: "toothpaste", group: "bathroom", blank: "I put ___ on my brush." },
+    { word: "shampoo", group: "bathroom", blank: "I wash my hair with ___." },
+    { word: "mirror", group: "bathroom", blank: "I look in the ___." },
+    { word: "toothbrush", group: "bathroom", blank: "I brush with a ___." },
+    { word: "floss", group: "bathroom", blank: "I clean my teeth with ___." },
+    { word: "lotion", group: "bathroom", blank: "I put ___ on my skin." },
     
-    { word: "shirt", type: "noun", group: "clothing", blank: "I wear a ___ on my body." },
-    { word: "pants", type: "noun", group: "clothing", blank: "I wear ___ on my legs." },
-    { word: "shoe", type: "noun", group: "clothing", blank: "I wear a ___ on my foot." },
-    { word: "sock", type: "noun", group: "clothing", blank: "I wear a ___ inside my shoe." },
-    { word: "hat", type: "noun", group: "clothing", blank: "I wear a ___ on my head." },
+    // Clothing (15)
+    { word: "shirt", group: "clothing", blank: "I wear a ___." },
+    { word: "pants", group: "clothing", blank: "I wear ___." },
+    { word: "shoe", group: "clothing", blank: "I wear a ___." },
+    { word: "sock", group: "clothing", blank: "I wear a ___." },
+    { word: "hat", group: "clothing", blank: "I wear a ___." },
+    { word: "coat", group: "clothing", blank: "I wear a ___ in winter." },
+    { word: "jacket", group: "clothing", blank: "I wear a ___." },
+    { word: "dress", group: "clothing", blank: "She wears a ___." },
+    { word: "skirt", group: "clothing", blank: "She wears a ___." },
+    { word: "belt", group: "clothing", blank: "I wear a ___ around my waist." },
+    { word: "tie", group: "clothing", blank: "I wear a ___." },
+    { word: "scarf", group: "clothing", blank: "I wear a ___ around my neck." },
+    { word: "glove", group: "clothing", blank: "I wear ___ on my hands." },
+    { word: "boot", group: "clothing", blank: "I wear ___ on my feet." },
+    { word: "slipper", group: "clothing", blank: "I wear ___ at home." },
     
-    { word: "book", type: "noun", group: "school", blank: "I read a ___ with many pages." },
-    { word: "pencil", type: "noun", group: "school", blank: "I write with a yellow ___." },
-    { word: "paper", type: "noun", group: "school", blank: "I draw on white ___." },
-    { word: "teacher", type: "noun", group: "school", blank: "A ___ helps students learn." },
+    // School (15)
+    { word: "book", group: "school", blank: "I read a ___." },
+    { word: "pencil", group: "school", blank: "I write with a ___." },
+    { word: "paper", group: "school", blank: "I draw on ___." },
+    { word: "teacher", group: "school", blank: "A ___ teaches me." },
+    { word: "student", group: "school", blank: "I am a ___." },
+    { word: "desk", group: "school", blank: "I sit at a ___." },
+    { word: "chair", group: "school", blank: "I sit on a ___." },
+    { word: "board", group: "school", blank: "The teacher writes on the ___." },
+    { word: "eraser", group: "school", blank: "I use an ___." },
+    { word: "ruler", group: "school", blank: "I measure with a ___." },
+    { word: "crayon", group: "school", blank: "I color with a ___." },
+    { word: "marker", group: "school", blank: "I draw with a ___." },
+    { word: "notebook", group: "school", blank: "I write in my ___." },
+    { word: "backpack", group: "school", blank: "I carry a ___." },
+    { word: "lunchbox", group: "school", blank: "I bring a ___ to school." },
     
-    { word: "chair", type: "noun", group: "furniture", blank: "I sit on a ___ at the table." },
-    { word: "table", type: "noun", group: "furniture", blank: "I put my plate on the ___." },
-    { word: "lamp", type: "noun", group: "furniture", blank: "A ___ gives light in a dark room." },
+    // Furniture (10)
+    { word: "table", group: "furniture", blank: "I eat at the ___." },
+    { word: "lamp", group: "furniture", blank: "A ___ gives light." },
+    { word: "bed", group: "furniture", blank: "I sleep in my ___." },
+    { word: "sofa", group: "furniture", blank: "I sit on the ___." },
+    { word: "shelf", group: "furniture", blank: "I put books on the ___." },
+    { word: "drawer", group: "furniture", blank: "I open the ___." },
+    { word: "cabinet", group: "furniture", blank: "I store things in the ___." },
+    { word: "couch", group: "furniture", blank: "I relax on the ___." },
+    { word: "desk", group: "furniture", blank: "I work at my ___." },
+    { word: "bench", group: "furniture", blank: "I sit on the ___." },
     
-    { word: "door", type: "noun", group: "house", blank: "I open the ___ to go outside." },
-    { word: "window", type: "noun", group: "house", blank: "I look outside through the ___." },
-    { word: "floor", type: "noun", group: "house", blank: "I walk on the ___ inside." },
+    // House (10)
+    { word: "door", group: "house", blank: "I open the ___." },
+    { word: "window", group: "house", blank: "I look out the ___." },
+    { word: "floor", group: "house", blank: "I walk on the ___." },
+    { word: "roof", group: "house", blank: "The ___ covers the house." },
+    { word: "wall", group: "house", blank: "I hang a picture on the ___." },
+    { word: "kitchen", group: "house", blank: "I cook in the ___." },
+    { word: "bedroom", group: "house", blank: "I sleep in my ___." },
+    { word: "bathroom", group: "house", blank: "I shower in the ___." },
+    { word: "garage", group: "house", blank: "I park my car in the ___." },
+    { word: "garden", group: "house", blank: "I play in the ___." },
     
-    { word: "tree", type: "noun", group: "nature", blank: "A bird sits on a tall ___." },
-    { word: "sun", type: "noun", group: "nature", blank: "The ___ is very hot and bright." },
-    { word: "moon", type: "noun", group: "nature", blank: "The ___ glows at night." },
-    { word: "star", type: "noun", group: "nature", blank: "I see a tiny ___ in the sky." },
-    { word: "flower", type: "noun", group: "nature", blank: "A rose is a beautiful ___." },
+    // Nature (20)
+    { word: "tree", group: "nature", blank: "A bird sits on a ___." },
+    { word: "sun", group: "nature", blank: "The ___ shines bright." },
+    { word: "moon", group: "nature", blank: "The ___ glows at night." },
+    { word: "star", group: "nature", blank: "I see a ___ in the sky." },
+    { word: "flower", group: "nature", blank: "A rose is a ___." },
+    { word: "grass", group: "nature", blank: "The ___ is green." },
+    { word: "mountain", group: "nature", blank: "I climb a ___." },
+    { word: "river", group: "nature", blank: "The ___ flows to the sea." },
+    { word: "lake", group: "nature", blank: "I swim in the ___." },
+    { word: "ocean", group: "nature", blank: "The ___ is very big." },
+    { word: "forest", group: "nature", blank: "I walk in the ___." },
+    { word: "desert", group: "nature", blank: "The ___ is hot and dry." },
+    { word: "island", group: "nature", blank: "A ___ is surrounded by water." },
+    { word: "cave", group: "nature", blank: "I explore a ___." },
+    { word: "waterfall", group: "nature", blank: "A ___ falls down." },
+    { word: "rainbow", group: "nature", blank: "I see a ___ after rain." },
+    { word: "cloud", group: "nature", blank: "A ___ floats in the sky." },
+    { word: "sky", group: "nature", blank: "The ___ is blue." },
+    { word: "air", group: "nature", blank: "I breathe fresh ___." },
+    { word: "wind", group: "nature", blank: "The ___ blows my hat." },
     
-    { word: "rain", type: "noun", group: "weather", blank: "___ falls from the sky." },
-    { word: "snow", type: "noun", group: "weather", blank: "White ___ covers the ground." },
-    { word: "wind", type: "noun", group: "weather", blank: "The strong ___ blows my hat." },
-    { word: "cloud", type: "noun", group: "weather", blank: "A fluffy white ___ floats." },
+    // Weather (10)
+    { word: "rain", group: "weather", blank: "___ falls from the sky." },
+    { word: "snow", group: "weather", blank: "White ___ covers the ground." },
+    { word: "storm", group: "weather", blank: "A ___ is very loud." },
+    { word: "thunder", group: "weather", blank: "___ booms in the sky." },
+    { word: "lightning", group: "weather", blank: "___ flashes in the sky." },
+    { word: "fog", group: "weather", blank: "___ makes it hard to see." },
+    { word: "ice", group: "weather", blank: "___ is cold and slippery." },
+    { word: "frost", group: "weather", blank: "___ covers the grass." },
+    { word: "hail", group: "weather", blank: "___ falls like stones." },
+    { word: "dew", group: "weather", blank: "___ drops on the grass." },
     
-    { word: "car", type: "noun", group: "transport", blank: "My dad drives a blue ___." },
-    { word: "train", type: "noun", group: "transport", blank: "The ___ goes choo-choo." },
-    { word: "plane", type: "noun", group: "transport", blank: "A ___ flies through the sky." },
-    { word: "bicycle", type: "noun", group: "transport", blank: "I ride my ___ to the park." },
-    { word: "bus", type: "noun", group: "transport", blank: "I take the ___ to school." },
+    // Transport (15)
+    { word: "car", group: "transport", blank: "I drive a ___." },
+    { word: "train", group: "transport", blank: "The ___ goes choo-choo." },
+    { word: "plane", group: "transport", blank: "A ___ flies high." },
+    { word: "bicycle", group: "transport", blank: "I ride a ___." },
+    { word: "bus", group: "transport", blank: "I take the ___ to school." },
+    { word: "boat", group: "transport", blank: "I sail in a ___." },
+    { word: "ship", group: "transport", blank: "A ___ carries cargo." },
+    { word: "truck", group: "transport", blank: "A ___ carries heavy loads." },
+    { word: "van", group: "transport", blank: "I ride in a ___." },
+    { word: "taxi", group: "transport", blank: "I take a ___ downtown." },
+    { word: "subway", group: "transport", blank: "I ride the ___." },
+    { word: "helicopter", group: "transport", blank: "A ___ flies above." },
+    { word: "rocket", group: "transport", blank: "A ___ goes to space." },
+    { word: "scooter", group: "transport", blank: "I ride a ___." },
+    { word: "skateboard", group: "transport", blank: "I ride a ___." },
     
-    { word: "ball", type: "noun", group: "play", blank: "I kick a ___ in the park." },
-    { word: "toy", type: "noun", group: "play", blank: "I play with a ___ in my room." },
-    { word: "game", type: "noun", group: "play", blank: "I play a fun ___ with friends." },
-    { word: "puzzle", type: "noun", group: "play", blank: "I put together a ___ with pieces." },
-    { word: "doll", type: "noun", group: "play", blank: "My sister plays with a ___." },
+    // Play (15)
+    { word: "ball", group: "play", blank: "I kick a ___." },
+    { word: "toy", group: "play", blank: "I play with a ___." },
+    { word: "game", group: "play", blank: "I play a ___." },
+    { word: "puzzle", group: "play", blank: "I solve a ___." },
+    { word: "doll", group: "play", blank: "My sister has a ___." },
+    { word: "kite", group: "play", blank: "I fly a ___." },
+    { word: "swing", group: "play", blank: "I play on a ___." },
+    { word: "slide", group: "play", blank: "I go down the ___." },
+    { word: "sandbox", group: "play", blank: "I play in the ___." },
+    { word: "bubble", group: "play", blank: "I blow a ___." },
+    { word: "balloon", group: "play", blank: "I pop a ___." },
+    { word: "yo-yo", group: "play", blank: "I play with a ___." },
+    { word: "blocks", group: "play", blank: "I build with ___." },
+    { word: "card", group: "play", blank: "I shuffle a ___." },
+    { word: "dice", group: "play", blank: "I roll the ___." },
     
-    // VERBS
-    { word: "run", type: "verb", group: "movement", blank: "I ___ fast in a race." },
-    { word: "walk", type: "verb", group: "movement", blank: "I ___ slowly to school." },
-    { word: "jump", type: "verb", group: "movement", blank: "I ___ over the puddle." },
-    { word: "swim", type: "verb", group: "movement", blank: "I ___ in the swimming pool." },
-    { word: "fly", type: "verb", group: "movement", blank: "I want to ___ like a bird." },
-    { word: "climb", type: "verb", group: "movement", blank: "I ___ up the ladder." },
+    // Places (15)
+    { word: "school", group: "places", blank: "I go to ___." },
+    { word: "park", group: "places", blank: "I play at the ___." },
+    { word: "zoo", group: "places", blank: "I see animals at the ___." },
+    { word: "museum", group: "places", blank: "I learn at the ___." },
+    { word: "library", group: "places", blank: "I read at the ___." },
+    { word: "store", group: "places", blank: "I shop at the ___." },
+    { word: "restaurant", group: "places", blank: "I eat at a ___." },
+    { word: "hospital", group: "places", blank: "Doctors work at the ___." },
+    { word: "bank", group: "places", blank: "I keep money at the ___." },
+    { word: "post office", group: "places", blank: "I mail letters at the ___." },
+    { word: "church", group: "places", blank: "I pray at ___." },
+    { word: "temple", group: "places", blank: "I meditate at the ___." },
+    { word: "gym", group: "places", blank: "I exercise at the ___." },
+    { word: "pool", group: "places", blank: "I swim in the ___." },
+    { word: "beach", group: "places", blank: "I play at the ___." },
     
-    { word: "eat", type: "verb", group: "actions", blank: "I ___ my lunch at noon." },
-    { word: "drink", type: "verb", group: "actions", blank: "I ___ water when thirsty." },
-    { word: "sleep", type: "verb", group: "actions", blank: "I ___ in my bed at night." },
-    { word: "smile", type: "verb", group: "actions", blank: "I ___ when I'm happy." },
-    { word: "laugh", type: "verb", group: "actions", blank: "I ___ when I hear a joke." },
-    { word: "cry", type: "verb", group: "actions", blank: "I ___ when I'm sad." },
-    
-    { word: "cook", type: "verb", group: "kitchen", blank: "I ___ dinner for my family." },
-    { word: "bake", type: "verb", group: "kitchen", blank: "I ___ cookies in the oven." },
-    { word: "wash", type: "verb", group: "kitchen", blank: "I ___ the dishes after dinner." },
-    { word: "clean", type: "verb", group: "kitchen", blank: "I ___ the kitchen table." },
-    
-    { word: "open", type: "verb", group: "manipulation", blank: "I ___ the door to go inside." },
-    { word: "close", type: "verb", group: "manipulation", blank: "I ___ the door behind me." },
-    { word: "push", type: "verb", group: "manipulation", blank: "I ___ the heavy box." },
-    { word: "pull", type: "verb", group: "manipulation", blank: "I ___ the rope to ring." },
-    { word: "lift", type: "verb", group: "manipulation", blank: "I ___ the heavy bag." },
-    { word: "throw", type: "verb", group: "manipulation", blank: "I ___ the ball to my friend." },
-    { word: "catch", type: "verb", group: "manipulation", blank: "I ___ the ball when it comes." },
-    
-    { word: "help", type: "verb", group: "social", blank: "I ___ my friend with homework." },
-    { word: "share", type: "verb", group: "social", blank: "I ___ my snack with my sister." },
-    { word: "give", type: "verb", group: "social", blank: "I ___ a gift to my friend." },
-    { word: "thank", type: "verb", group: "social", blank: "I ___ my teacher for helping." },
-    
-    { word: "think", type: "verb", group: "mental", blank: "I ___ about the answer." },
-    { word: "know", type: "verb", group: "mental", blank: "I ___ the right answer." },
-    { word: "guess", type: "verb", group: "mental", blank: "I ___ the answer to the riddle." },
-    { word: "remember", type: "verb", group: "mental", blank: "I ___ to say thank you." },
-    
-    // SENTENCES - these use meaning matching, NOT fill-in-the-blank
-    { word: "Make a wish.", type: "sentence", group: "hopes", meaning: "Hope for something good." },
-    { word: "I have a dream.", type: "sentence", group: "hopes", meaning: "I want something big." },
-    { word: "Dream big.", type: "sentence", group: "hopes", meaning: "Think about big goals." },
-    { word: "I have hope.", type: "sentence", group: "hopes", meaning: "I believe things will be good." },
-    { word: "I am happy.", type: "sentence", group: "feelings", meaning: "I feel joy." },
-    { word: "She is kind.", type: "sentence", group: "feelings", meaning: "She is nice." },
-    { word: "Love is kind.", type: "sentence", group: "feelings", meaning: "Love means being nice." },
-    { word: "Peace is quiet.", type: "sentence", group: "feelings", meaning: "Peace is calm." },
-    { word: "I read a book.", type: "sentence", group: "school", meaning: "I look at words in a book." },
-    { word: "She writes a letter.", type: "sentence", group: "school", meaning: "She puts words on paper." },
-    { word: "Study hard.", type: "sentence", group: "school", meaning: "Learn with effort." },
-    { word: "Practice daily.", type: "sentence", group: "school", meaning: "Do it every day." },
-    { word: "The sun is bright.", type: "sentence", group: "nature", meaning: "The sun shines strongly." },
-    { word: "Rain falls down.", type: "sentence", group: "nature", meaning: "Water drops from the sky." },
-    { word: "Snow is cold.", type: "sentence", group: "nature", meaning: "Snow has low temperature." },
-    { word: "Help others.", type: "sentence", group: "social", meaning: "Assist other people." },
-    { word: "Share your snack.", type: "sentence", group: "social", meaning: "Give some of your food." },
-    { word: "Give a gift.", type: "sentence", group: "social", meaning: "Offer something as a present." },
-    { word: "Thank someone.", type: "sentence", group: "social", meaning: "Say you are grateful." }
+    // Body parts (15)
+    { word: "head", group: "body", blank: "I have a ___." },
+    { word: "face", group: "body", blank: "I wash my ___." },
+    { word: "eye", group: "body", blank: "I see with my ___." },
+    { word: "ear", group: "body", blank: "I hear with my ___." },
+    { word: "nose", group: "body", blank: "I smell with my ___." },
+    { word: "mouth", group: "body", blank: "I talk with my ___." },
+    { word: "arm", group: "body", blank: "I lift with my ___." },
+    { word: "hand", group: "body", blank: "I write with my ___." },
+    { word: "leg", group: "body", blank: "I walk with my ___." },
+    { word: "foot", group: "body", blank: "I stand on my ___." },
+    { word: "finger", group: "body", blank: "I point with my ___." },
+    { word: "toe", group: "body", blank: "I wiggle my ___." },
+    { word: "neck", group: "body", blank: "I wear a scarf around my ___." },
+    { word: "back", group: "body", blank: "I carry a bag on my ___." },
+    { word: "shoulder", group: "body", blank: "I shrug my ___." }
   ];
+
+  // ========== 200 VERBS ==========
+  const VERBS = [
+    // Movement (30)
+    { word: "run", group: "movement", blank: "I ___ fast in a race." },
+    { word: "walk", group: "movement", blank: "I ___ slowly to school." },
+    { word: "jump", group: "movement", blank: "I ___ over the puddle." },
+    { word: "swim", group: "movement", blank: "I ___ in the pool." },
+    { word: "fly", group: "movement", blank: "I want to ___ like a bird." },
+    { word: "climb", group: "movement", blank: "I ___ up the ladder." },
+    { word: "skip", group: "movement", blank: "I ___ down the street." },
+    { word: "hop", group: "movement", blank: "I ___ on one foot." },
+    { word: "crawl", group: "movement", blank: "A baby ___ on the floor." },
+    { word: "dance", group: "movement", blank: "I ___ to music." },
+    { word: "march", group: "movement", blank: "The band ___ in the parade." },
+    { word: "slide", group: "movement", blank: "I ___ down the hill." },
+    { word: "spin", group: "movement", blank: "I ___ around and around." },
+    { word: "roll", group: "movement", blank: "The ball ___ across the floor." },
+    { word: "stomp", group: "movement", blank: "I ___ my feet." },
+    { word: "wiggle", group: "movement", blank: "I ___ my toes." },
+    { word: "shake", group: "movement", blank: "I ___ my head." },
+    { word: "wave", group: "movement", blank: "I ___ my hand." },
+    { word: "turn", group: "movement", blank: "I ___ around." },
+    { word: "bend", group: "movement", blank: "I ___ over." },
+    { word: "stretch", group: "movement", blank: "I ___ my arms." },
+    { word: "kick", group: "movement", blank: "I ___ the ball." },
+    { word: "punch", group: "movement", blank: "I ___ the bag." },
+    { word: "catch", group: "movement", blank: "I ___ the ball." },
+    { word: "throw", group: "movement", blank: "I ___ the ball." },
+    { word: "lift", group: "movement", blank: "I ___ the heavy box." },
+    { word: "carry", group: "movement", blank: "I ___ my bag." },
+    { word: "push", group: "movement", blank: "I ___ the cart." },
+    { word: "pull", group: "movement", blank: "I ___ the rope." },
+    { word: "dive", group: "movement", blank: "I ___ into the water." },
+    
+    // Actions (30)
+    { word: "eat", group: "actions", blank: "I ___ my lunch." },
+    { word: "drink", group: "actions", blank: "I ___ water." },
+    { word: "sleep", group: "actions", blank: "I ___ in my bed." },
+    { word: "wake", group: "actions", blank: "I ___ up early." },
+    { word: "smile", group: "actions", blank: "I ___ when I'm happy." },
+    { word: "laugh", group: "actions", blank: "I ___ at jokes." },
+    { word: "cry", group: "actions", blank: "I ___ when I'm sad." },
+    { word: "whisper", group: "actions", blank: "I ___ softly." },
+    { word: "shout", group: "actions", blank: "I ___ loudly." },
+    { word: "sing", group: "actions", blank: "I ___ a song." },
+    { word: "hum", group: "actions", blank: "I ___ a tune." },
+    { word: "clap", group: "actions", blank: "I ___ my hands." },
+    { word: "snap", group: "actions", blank: "I ___ my fingers." },
+    { word: "nod", group: "actions", blank: "I ___ my head." },
+    { word: "shake", group: "actions", blank: "I ___ my head." },
+    { word: "blink", group: "actions", blank: "I ___ my eyes." },
+    { word: "wink", group: "actions", blank: "I ___ one eye." },
+    { word: "breathe", group: "actions", blank: "I ___ deeply." },
+    { word: "sneeze", group: "actions", blank: "I ___ loudly." },
+    { word: "cough", group: "actions", blank: "I ___ when I'm sick." },
+    { word: "yawn", group: "actions", blank: "I ___ when I'm tired." },
+    { word: "stretch", group: "actions", blank: "I ___ my body." },
+    { word: "relax", group: "actions", blank: "I ___ on the sofa." },
+    { word: "meditate", group: "actions", blank: "I ___ for peace." },
+    { word: "focus", group: "actions", blank: "I ___ on my work." },
+    { word: "concentrate", group: "actions", blank: "I ___ on reading." },
+    { word: "listen", group: "actions", blank: "I ___ to music." },
+    { word: "look", group: "actions", blank: "I ___ at the stars." },
+    { word: "watch", group: "actions", blank: "I ___ TV." },
+    { word: "observe", group: "actions", blank: "I ___ the ants." },
+    
+    // Kitchen (15)
+    { word: "cook", group: "kitchen", blank: "I ___ dinner." },
+    { word: "bake", group: "kitchen", blank: "I ___ cookies." },
+    { word: "wash", group: "kitchen", blank: "I ___ the dishes." },
+    { word: "clean", group: "kitchen", blank: "I ___ the table." },
+    { word: "mix", group: "kitchen", blank: "I ___ the ingredients." },
+    { word: "stir", group: "kitchen", blank: "I ___ the soup." },
+    { word: "pour", group: "kitchen", blank: "I ___ the milk." },
+    { word: "slice", group: "kitchen", blank: "I ___ the bread." },
+    { word: "peel", group: "kitchen", blank: "I ___ the banana." },
+    { word: "grate", group: "kitchen", blank: "I ___ the cheese." },
+    { word: "chop", group: "kitchen", blank: "I ___ the vegetables." },
+    { word: "fry", group: "kitchen", blank: "I ___ the eggs." },
+    { word: "boil", group: "kitchen", blank: "I ___ the water." },
+    { word: "steam", group: "kitchen", blank: "I ___ the vegetables." },
+    { word: "grill", group: "kitchen", blank: "I ___ the meat." },
+    
+    // School (15)
+    { word: "read", group: "school", blank: "I ___ a book." },
+    { word: "write", group: "school", blank: "I ___ my name." },
+    { word: "draw", group: "school", blank: "I ___ a picture." },
+    { word: "paint", group: "school", blank: "I ___ a rainbow." },
+    { word: "study", group: "school", blank: "I ___ for the test." },
+    { word: "learn", group: "school", blank: "I ___ new words." },
+    { word: "teach", group: "school", blank: "I ___ my friend." },
+    { word: "practice", group: "school", blank: "I ___ every day." },
+    { word: "try", group: "school", blank: "I ___ my best." },
+    { word: "think", group: "school", blank: "I ___ about it." },
+    { word: "solve", group: "school", blank: "I ___ the problem." },
+    { word: "memorize", group: "school", blank: "I ___ the words." },
+    { word: "spell", group: "school", blank: "I ___ the word." },
+    { word: "count", group: "school", blank: "I ___ to ten." },
+    { word: "calculate", group: "school", blank: "I ___ the answer." },
+    
+    // Social (20)
+    { word: "help", group: "social", blank: "I ___ my friend." },
+    { word: "share", group: "social", blank: "I ___ my snack." },
+    { word: "give", group: "social", blank: "I ___ a gift." },
+    { word: "take", group: "social", blank: "I ___ a photo." },
+    { word: "thank", group: "social", blank: "I ___ my teacher." },
+    { word: "apologize", group: "social", blank: "I ___ for my mistake." },
+    { word: "forgive", group: "social", blank: "I ___ my friend." },
+    { word: "welcome", group: "social", blank: "I ___ the guest." },
+    { word: "invite", group: "social", blank: "I ___ my friend." },
+    { word: "visit", group: "social", blank: "I ___ my grandma." },
+    { word: "travel", group: "social", blank: "I ___ to new places." },
+    { word: "celebrate", group: "social", blank: "I ___ my birthday." },
+    { word: "party", group: "social", blank: "I ___ with friends." },
+    { word: "play", group: "social", blank: "I ___ with friends." },
+    { word: "talk", group: "social", blank: "I ___ to my friend." },
+    { word: "chat", group: "social", blank: "I ___ online." },
+    { word: "discuss", group: "social", blank: "I ___ the topic." },
+    { word: "decide", group: "social", blank: "I ___ what to do." },
+    { word: "choose", group: "social", blank: "I ___ the game." },
+    { word: "promise", group: "social", blank: "I ___ to return." },
+    
+    // Mental (15)
+    { word: "know", group: "mental", blank: "I ___ the answer." },
+    { word: "guess", group: "mental", blank: "I ___ the riddle." },
+    { word: "remember", group: "mental", blank: "I ___ to say thanks." },
+    { word: "forget", group: "mental", blank: "I ___ the answer." },
+    { word: "believe", group: "mental", blank: "I ___ in myself." },
+    { word: "hope", group: "mental", blank: "I ___ for the best." },
+    { word: "wish", group: "mental", blank: "I ___ for a star." },
+    { word: "imagine", group: "mental", blank: "I ___ a dragon." },
+    { word: "dream", group: "mental", blank: "I ___ big." },
+    { word: "plan", group: "mental", blank: "I ___ my day." },
+    { word: "organize", group: "mental", blank: "I ___ my toys." },
+    { word: "prepare", group: "mental", blank: "I ___ for school." },
+    { word: "expect", group: "mental", blank: "I ___ good things." },
+    { word: "understand", group: "mental", blank: "I ___ the lesson." },
+    { word: "realize", group: "mental", blank: "I ___ my mistake." },
+    
+    // Emotions (15)
+    { word: "love", group: "emotions", blank: "I ___ my family." },
+    { word: "like", group: "emotions", blank: "I ___ pizza." },
+    { word: "enjoy", group: "emotions", blank: "I ___ the party." },
+    { word: "hate", group: "emotions", blank: "I ___ broccoli." },
+    { word: "fear", group: "emotions", blank: "I ___ spiders." },
+    { word: "worry", group: "emotions", blank: "I ___ about the test." },
+    { word: "excite", group: "emotions", blank: "I ___ about the trip." },
+    { word: "surprise", group: "emotions", blank: "I ___ my friend." },
+    { word: "confuse", group: "emotions", blank: "I ___ the question." },
+    { word: "annoy", group: "emotions", blank: "I ___ my sister." },
+    { word: "anger", group: "emotions", blank: "I ___ easily." },
+    { word: "calm", group: "emotions", blank: "I ___ myself." },
+    { word: "comfort", group: "emotions", blank: "I ___ my friend." },
+    { word: "encourage", group: "emotions", blank: "I ___ my friend." },
+    { word: "inspire", group: "emotions", blank: "I ___ others." },
+    
+    // Daily routine (20)
+    { word: "wake", group: "routine", blank: "I ___ up at 7am." },
+    { word: "brush", group: "routine", blank: "I ___ my teeth." },
+    { word: "shower", group: "routine", blank: "I ___ in the morning." },
+    { word: "dress", group: "routine", blank: "I ___ myself." },
+    { word: "eat", group: "routine", blank: "I ___ breakfast." },
+    { word: "go", group: "routine", blank: "I ___ to school." },
+    { word: "arrive", group: "routine", blank: "I ___ at school." },
+    { word: "begin", group: "routine", blank: "I ___ my work." },
+    { word: "finish", group: "routine", blank: "I ___ my homework." },
+    { word: "return", group: "routine", blank: "I ___ home." },
+    { word: "relax", group: "routine", blank: "I ___ at home." },
+    { word: "dinner", group: "routine", blank: "I ___ with family." },
+    { word: "homework", group: "routine", blank: "I ___ after school." },
+    { word: "play", group: "routine", blank: "I ___ after homework." },
+    { word: "read", group: "routine", blank: "I ___ before bed." },
+    { word: "brush", group: "routine", blank: "I ___ my teeth." },
+    { word: "pray", group: "routine", blank: "I ___ before bed." },
+    { word: "sleep", group: "routine", blank: "I ___ at 9pm." },
+    { word: "dream", group: "routine", blank: "I ___ at night." },
+    { word: "repeat", group: "routine", blank: "I ___ every day." },
+    
+    // Work (15)
+    { word: "work", group: "work", blank: "I ___ at my job." },
+    { word: "build", group: "work", blank: "I ___ a house." },
+    { word: "create", group: "work", blank: "I ___ art." },
+    { word: "design", group: "work", blank: "I ___ a poster." },
+    { word: "develop", group: "work", blank: "I ___ a plan." },
+    { word: "lead", group: "work", blank: "I ___ the team." },
+    { word: "manage", group: "work", blank: "I ___ the project." },
+    { word: "organize", group: "work", blank: "I ___ the files." },
+    { word: "plan", group: "work", blank: "I ___ the schedule." },
+    { word: "produce", group: "work", blank: "I ___ goods." },
+    { word: "serve", group: "work", blank: "I ___ the food." },
+    { word: "support", group: "work", blank: "I ___ the team." },
+    { word: "teach", group: "work", blank: "I ___ students." },
+    { word: "write", group: "work", blank: "I ___ reports." },
+    { word: "research", group: "work", blank: "I ___ the topic." },
+    
+    // Outdoor (10)
+    { word: "hike", group: "outdoor", blank: "I ___ up the mountain." },
+    { word: "camp", group: "outdoor", blank: "I ___ in the forest." },
+    { word: "fish", group: "outdoor", blank: "I ___ in the river." },
+    { word: "hunt", group: "outdoor", blank: "I ___ for food." },
+    { word: "plant", group: "outdoor", blank: "I ___ a tree." },
+    { word: "water", group: "outdoor", blank: "I ___ the garden." },
+    { word: "mow", group: "outdoor", blank: "I ___ the lawn." },
+    { word: "rake", group: "outdoor", blank: "I ___ the leaves." },
+    { word: "shovel", group: "outdoor", blank: "I ___ the snow." },
+    { word: "build", group: "outdoor", blank: "I ___ a snowman." },
+    
+    // Technology (10)
+    { word: "type", group: "tech", blank: "I ___ on my phone." },
+    { word: "click", group: "tech", blank: "I ___ the mouse." },
+    { word: "scroll", group: "tech", blank: "I ___ through the page." },
+    { word: "download", group: "tech", blank: "I ___ an app." },
+    { word: "upload", group: "tech", blank: "I ___ a photo." },
+    { word: "share", group: "tech", blank: "I ___ a post." },
+    { word: "like", group: "tech", blank: "I ___ the video." },
+    { word: "comment", group: "tech", blank: "I ___ on the post." },
+    { word: "search", group: "tech", blank: "I ___ online." },
+    { word: "browse", group: "tech", blank: "I ___ the internet." }
+  ];
+
+  // ========== 200 SENTENCES ==========
+  const SENTENCES = [
+    // Hopes & Dreams (15)
+    { word: "Make a wish.", group: "hopes", meaning: "Hope for something good." },
+    { word: "I have a dream.", group: "hopes", meaning: "I want something big." },
+    { word: "Dream big.", group: "hopes", meaning: "Think about big goals." },
+    { word: "I have hope.", group: "hopes", meaning: "I believe things will be good." },
+    { word: "Believe in yourself.", group: "hopes", meaning: "Trust your abilities." },
+    { word: "Never give up.", group: "hopes", meaning: "Keep trying." },
+    { word: "Try your best.", group: "hopes", meaning: "Give maximum effort." },
+    { word: "Follow your dreams.", group: "hopes", meaning: "Chase what you want." },
+    { word: "You can do it.", group: "hopes", meaning: "I believe in you." },
+    { word: "Be strong.", group: "hopes", meaning: "Don't give up." },
+    { word: "Stay positive.", group: "hopes", meaning: "Think good thoughts." },
+    { word: "Keep going.", group: "hopes", meaning: "Don't stop." },
+    { word: "You are special.", group: "hopes", meaning: "You are unique." },
+    { word: "Be brave.", group: "hopes", meaning: "Don't be afraid." },
+    { word: "Shine bright.", group: "hopes", meaning: "Be your best self." },
+    
+    // Feelings (20)
+    { word: "I am happy.", group: "feelings", meaning: "I feel joy." },
+    { word: "She is kind.", group: "feelings", meaning: "She is nice." },
+    { word: "Love is kind.", group: "feelings", meaning: "Love means being nice." },
+    { word: "Peace is quiet.", group: "feelings", meaning: "Peace is calm." },
+    { word: "I am sad.", group: "feelings", meaning: "I feel unhappy." },
+    { word: "I am angry.", group: "feelings", meaning: "I am mad." },
+    { word: "I am scared.", group: "feelings", meaning: "I am afraid." },
+    { word: "I am excited.", group: "feelings", meaning: "I am thrilled." },
+    { word: "I am tired.", group: "feelings", meaning: "I need rest." },
+    { word: "I am hungry.", group: "feelings", meaning: "I want food." },
+    { word: "I am thirsty.", group: "feelings", meaning: "I want water." },
+    { word: "I am sleepy.", group: "feelings", meaning: "I need sleep." },
+    { word: "I am nervous.", group: "feelings", meaning: "I feel anxious." },
+    { word: "I am calm.", group: "feelings", meaning: "I am peaceful." },
+    { word: "I am proud.", group: "feelings", meaning: "I am proud." },
+    { word: "I am grateful.", group: "feelings", meaning: "I am thankful." },
+    { word: "I feel great.", group: "feelings", meaning: "I feel wonderful." },
+    { word: "I feel lonely.", group: "feelings", meaning: "I am alone." },
+    { word: "I feel confused.", group: "feelings", meaning: "I don't understand." },
+    { word: "I feel better.", group: "feelings", meaning: "I feel improved." },
+    
+    // School (20)
+    { word: "I read a book.", group: "school", meaning: "I look at words." },
+    { word: "She writes a letter.", group: "school", meaning: "She puts words on paper." },
+    { word: "Study hard.", group: "school", meaning: "Learn with effort." },
+    { word: "Practice daily.", group: "school", meaning: "Do it every day." },
+    { word: "I like school.", group: "school", meaning: "I enjoy learning." },
+    { word: "I do homework.", group: "school", meaning: "I work at home." },
+    { word: "I learn math.", group: "school", meaning: "I study numbers." },
+    { word: "I study science.", group: "school", meaning: "I study nature." },
+    { word: "I draw a picture.", group: "school", meaning: "I make art." },
+    { word: "I read a story.", group: "school", meaning: "I read fiction." },
+    { word: "I write a report.", group: "school", meaning: "I write an essay." },
+    { word: "I take a test.", group: "school", meaning: "I take an exam." },
+    { word: "I pass the test.", group: "school", meaning: "I succeed." },
+    { word: "I fail the test.", group: "school", meaning: "I don't succeed." },
+    { word: "I try again.", group: "school", meaning: "I keep trying." },
+    { word: "I learn a lot.", group: "school", meaning: "I gain knowledge." },
+    { word: "I ask a question.", group: "school", meaning: "I ask for help." },
+    { word: "I answer the question.", group: "school", meaning: "I give an answer." },
+    { word: "I raise my hand.", group: "school", meaning: "I want to speak." },
+    { word: "I listen to the teacher.", group: "school", meaning: "I pay attention." },
+    
+    // Nature (20)
+    { word: "The sun is bright.", group: "nature", meaning: "The sun shines strongly." },
+    { word: "Rain falls down.", group: "nature", meaning: "Water drops from the sky." },
+    { word: "Snow is cold.", group: "nature", meaning: "Snow has low temperature." },
+    { word: "The wind blows.", group: "nature", meaning: "Air moves." },
+    { word: "Birds sing sweetly.", group: "nature", meaning: "Birds make nice sounds." },
+    { word: "The moon is bright.", group: "nature", meaning: "The moon glows." },
+    { word: "The stars shine.", group: "nature", meaning: "Stars glow at night." },
+    { word: "The grass is green.", group: "nature", meaning: "Grass has color." },
+    { word: "The tree is tall.", group: "nature", meaning: "Tree is big." },
+    { word: "The flower blooms.", group: "nature", meaning: "The flower opens." },
+    { word: "The water flows.", group: "nature", meaning: "Water moves." },
+    { word: "The fire burns.", group: "nature", meaning: "Fire is hot." },
+    { word: "The earth is round.", group: "nature", meaning: "Earth is a globe." },
+    { word: "The sky is blue.", group: "nature", meaning: "Sky has color." },
+    { word: "The clouds are white.", group: "nature", meaning: "Clouds have color." },
+    { word: "The rainbow appears.", group: "nature", meaning: "Rainbow shows after rain." },
+    { word: "The leaves fall.", group: "nature", meaning: "Leaves drop." },
+    { word: "The ice melts.", group: "nature", meaning: "Ice turns to water." },
+    { word: "The sun sets.", group: "nature", meaning: "Sun goes down." },
+    { word: "The sun rises.", group: "nature", meaning: "Sun comes up." },
+    
+    // Social (25)
+    { word: "Help others.", group: "social", meaning: "Assist other people." },
+    { word: "Share your snack.", group: "social", meaning: "Give some of your food." },
+    { word: "Give a gift.", group: "social", meaning: "Offer something as a present." },
+    { word: "Thank someone.", group: "social", meaning: "Say you are grateful." },
+    { word: "Forgive and forget.", group: "social", meaning: "Stop being angry." },
+    { word: "Be kind to others.", group: "social", meaning: "Be nice to people." },
+    { word: "Say hello.", group: "social", meaning: "Greet someone." },
+    { word: "Say goodbye.", group: "social", meaning: "Say farewell." },
+    { word: "Please and thank you.", group: "social", meaning: "Be polite." },
+    { word: "Excuse me.", group: "social", meaning: "Say sorry for interruption." },
+    { word: "I'm sorry.", group: "social", meaning: "Say sorry for mistake." },
+    { word: "How are you?", group: "social", meaning: "Ask about well-being." },
+    { word: "I am fine.", group: "social", meaning: "I am well." },
+    { word: "Nice to meet you.", group: "social", meaning: "Pleased to meet you." },
+    { word: "What is your name?", group: "social", meaning: "Ask for name." },
+    { word: "My name is...", group: "social", meaning: "Introduce yourself." },
+    { word: "Where are you from?", group: "social", meaning: "Ask about origin." },
+    { word: "I am from...", group: "social", meaning: "State your origin." },
+    { word: "How old are you?", group: "social", meaning: "Ask for age." },
+    { word: "I am... years old.", group: "social", meaning: "State your age." },
+    { word: "What do you like?", group: "social", meaning: "Ask about preferences." },
+    { word: "I like...", group: "social", meaning: "State your preference." },
+    { word: "Let's be friends.", group: "social", meaning: "Offer friendship." },
+    { word: "Can I help you?", group: "social", meaning: "Offer help." },
+    { word: "You are welcome.", group: "social", meaning: "You are accepted." },
+    
+    // Daily Life (30)
+    { word: "I go to school.", group: "daily", meaning: "I attend school." },
+    { word: "I eat breakfast.", group: "daily", meaning: "I eat morning meal." },
+    { word: "I eat lunch.", group: "daily", meaning: "I eat mid-day meal." },
+    { word: "I eat dinner.", group: "daily", meaning: "I eat evening meal." },
+    { word: "I drink water.", group: "daily", meaning: "I drink water." },
+    { word: "I brush my teeth.", group: "daily", meaning: "I clean my teeth." },
+    { word: "I take a shower.", group: "daily", meaning: "I wash myself." },
+    { word: "I get dressed.", group: "daily", meaning: "I put on clothes." },
+    { word: "I go to work.", group: "daily", meaning: "I go to my job." },
+    { word: "I come home.", group: "daily", meaning: "I return home." },
+    { word: "I watch TV.", group: "daily", meaning: "I watch television." },
+    { word: "I play games.", group: "daily", meaning: "I play." },
+    { word: "I read a story.", group: "daily", meaning: "I read." },
+    { word: "I talk to my friends.", group: "daily", meaning: "I chat with friends." },
+    { word: "I go to the park.", group: "daily", meaning: "I visit the park." },
+    { word: "I go to the store.", group: "daily", meaning: "I go shopping." },
+    { word: "I go to bed.", group: "daily", meaning: "I sleep." },
+    { word: "I wake up.", group: "daily", meaning: "I get up." },
+    { word: "I get ready.", group: "daily", meaning: "I prepare." },
+    { word: "I clean my room.", group: "daily", meaning: "I tidy up." },
+    { word: "I do the dishes.", group: "daily", meaning: "I wash dishes." },
+    { word: "I take the bus.", group: "daily", meaning: "I ride the bus." },
+    { word: "I walk to school.", group: "daily", meaning: "I walk." },
+    { word: "I help my mom.", group: "daily", meaning: "I help." },
+    { word: "I play with my dog.", group: "daily", meaning: "I play with dog." },
+    { word: "I talk to my dad.", group: "daily", meaning: "I talk." },
+    { word: "I visit my grandma.", group: "daily", meaning: "I visit." },
+    { word: "I call my friend.", group: "daily", meaning: "I call." },
+    { word: "I write a letter.", group: "daily", meaning: "I write." },
+    { word: "I send a message.", group: "daily", meaning: "I send." },
+    
+    // Travel & Adventure (20)
+    { word: "I travel abroad.", group: "travel", meaning: "I go overseas." },
+    { word: "I visit a museum.", group: "travel", meaning: "I see exhibits." },
+    { word: "I explore the city.", group: "travel", meaning: "I discover the city." },
+    { word: "I climb a mountain.", group: "travel", meaning: "I go up." },
+    { word: "I swim in the ocean.", group: "travel", meaning: "I swim in sea." },
+    { word: "I walk on the beach.", group: "travel", meaning: "I walk on sand." },
+    { word: "I ride a bike.", group: "travel", meaning: "I bike." },
+    { word: "I drive a car.", group: "travel", meaning: "I drive." },
+    { word: "I fly a plane.", group: "travel", meaning: "I pilot." },
+    { word: "I ride a train.", group: "travel", meaning: "I take train." },
+    { word: "I take a boat.", group: "travel", meaning: "I take water transport." },
+    { word: "I see a castle.", group: "travel", meaning: "I see castle." },
+    { word: "I visit a temple.", group: "travel", meaning: "I visit place of worship." },
+    { word: "I hike in the forest.", group: "travel", meaning: "I hike." },
+    { word: "I camp in the wild.", group: "travel", meaning: "I camp." },
+    { word: "I fish in the river.", group: "travel", meaning: "I fish." },
+    { word: "I watch the sunset.", group: "travel", meaning: "I see sunset." },
+    { word: "I take a photo.", group: "travel", meaning: "I capture." },
+    { word: "I buy a souvenir.", group: "travel", meaning: "I buy a keepsake." },
+    { word: "I try new food.", group: "travel", meaning: "I eat new things." },
+    
+    // Health & Wellness (15)
+    { word: "I eat healthy food.", group: "health", meaning: "I eat good food." },
+    { word: "I exercise daily.", group: "health", meaning: "I work out." },
+    { word: "I drink water.", group: "health", meaning: "I stay hydrated." },
+    { word: "I sleep early.", group: "health", meaning: "I rest early." },
+    { word: "I wake up early.", group: "health", meaning: "I get up early." },
+    { word: "I brush my teeth.", group: "health", meaning: "I clean teeth." },
+    { word: "I wash my hands.", group: "health", meaning: "I clean hands." },
+    { word: "I take a bath.", group: "health", meaning: "I bathe." },
+    { word: "I stay clean.", group: "health", meaning: "I keep clean." },
+    { word: "I stay strong.", group: "health", meaning: "I keep strong." },
+    { word: "I am healthy.", group: "health", meaning: "I am well." },
+    { word: "I am fit.", group: "health", meaning: "I am in shape." },
+    { word: "I run every day.", group: "health", meaning: "I run." },
+    { word: "I stretch my body.", group: "health", meaning: "I stretch." },
+    { word: "I take a walk.", group: "health", meaning: "I walk." },
+    
+    // Family & Home (20)
+    { word: "I live with my family.", group: "family", meaning: "I live with family." },
+    { word: "I love my mom.", group: "family", meaning: "I love mother." },
+    { word: "I love my dad.", group: "family", meaning: "I love father." },
+    { word: "I love my sister.", group: "family", meaning: "I love sister." },
+    { word: "I love my brother.", group: "family", meaning: "I love brother." },
+    { word: "We eat together.", group: "family", meaning: "We eat as family." },
+    { word: "We watch TV together.", group: "family", meaning: "We watch." },
+    { word: "We play together.", group: "family", meaning: "We play." },
+    { word: "We talk every day.", group: "family", meaning: "We talk." },
+    { word: "We help each other.", group: "family", meaning: "We help." },
+    { word: "I call my mom.", group: "family", meaning: "I call mother." },
+    { word: "I see my grandma.", group: "family", meaning: "I see grandma." },
+    { word: "I visit my grandpa.", group: "family", meaning: "I visit grandpa." },
+    { word: "My family is big.", group: "family", meaning: "My family is large." },
+    { word: "My family is small.", group: "family", meaning: "My family is small." },
+    { word: "I share with my family.", group: "family", meaning: "I share." },
+    { word: "We celebrate together.", group: "family", meaning: "We celebrate." },
+    { word: "We laugh together.", group: "family", meaning: "We laugh." },
+    { word: "We support each other.", group: "family", meaning: "We support." },
+    { word: "Home is where the heart is.", group: "family", meaning: "Home is love." },
+    
+    // Time & Weather (15)
+    { word: "The time is now.", group: "time", meaning: "Time is present." },
+    { word: "Today is a good day.", group: "time", meaning: "Today is great." },
+    { word: "Tomorrow is a new day.", group: "time", meaning: "Tomorrow is fresh." },
+    { word: "Yesterday was fun.", group: "time", meaning: "Yesterday was good." },
+    { word: "I wake up early.", group: "time", meaning: "I rise early." },
+    { word: "I sleep at night.", group: "time", meaning: "I rest at night." },
+    { word: "The sun rises.", group: "time", meaning: "Sun comes up." },
+    { word: "The sun sets.", group: "time", meaning: "Sun goes down." },
+    { word: "It is hot.", group: "time", meaning: "It is warm." },
+    { word: "It is cold.", group: "time", meaning: "It is chilly." },
+    { word: "It is cloudy.", group: "time", meaning: "Clouds are out." },
+    { word: "It is sunny.", group: "time", meaning: "Sun is out." },
+    { word: "It is raining.", group: "time", meaning: "Rain is falling." },
+    { word: "It is snowing.", group: "time", meaning: "Snow is falling." },
+    { word: "It is windy.", group: "time", meaning: "Wind is blowing." }
+  ];
+
+  // ============================================================
+  // BUILD MASTER LIST
+  // ============================================================
+  
+  const WORDS = [];
+  
+  // Add nouns (type: noun)
+  NOUNS.forEach(item => {
+    WORDS.push({ 
+      word: item.word, 
+      type: "noun", 
+      group: item.group, 
+      blank: item.blank 
+    });
+  });
+  
+  // Add verbs (type: verb)
+  VERBS.forEach(item => {
+    WORDS.push({ 
+      word: item.word, 
+      type: "verb", 
+      group: item.group, 
+      blank: item.blank 
+    });
+  });
+  
+  // Add sentences (type: sentence)
+  SENTENCES.forEach(item => {
+    WORDS.push({ 
+      word: item.word, 
+      type: "sentence", 
+      group: item.group, 
+      meaning: item.meaning 
+    });
+  });
 
   // ============================================================
   // STATE
@@ -508,7 +1103,15 @@
     const item = WORDS[currentIndex];
     currentWordEl.textContent = item.word;
     wordTypeEl.textContent = item.type.charAt(0).toUpperCase() + item.type.slice(1);
-    wordExampleEl.textContent = item.blank ? item.blank.replace(/___/g, item.word) : (item.example || 'No example.');
+    
+    if (item.blank) {
+      wordExampleEl.textContent = item.blank.replace(/___/g, item.word);
+    } else if (item.meaning) {
+      wordExampleEl.textContent = item.meaning;
+    } else {
+      wordExampleEl.textContent = item.word;
+    }
+    
     wordCounter.textContent = `${currentIndex + 1} / ${WORDS.length}`;
     
     const isLearned = learnedSet.has(item.word);
@@ -575,46 +1178,70 @@
   }
 
   // ============================================================
-  // QUIZ - FIXED: Options are ALWAYS same type
+  // QUIZ - ONLY USES WORDS THAT HAVE BEEN REVIEWED
   // ============================================================
   function generateQuiz() {
-    let available = WORDS.filter(item => !learnedSet.has(item.word));
-    if (available.length < 50) available = WORDS;
+    // Only use words that have been reviewed
+    let available = WORDS.filter(item => reviewedSet.has(item.word));
     
+    // If not enough reviewed words, show warning
+    if (available.length < 4) {
+      quizContent.innerHTML = `
+        <div class="warning-box">
+          <strong>📚 Not enough words reviewed!</strong>
+          <p>You need to review at least <strong>4 words</strong> before taking a quiz.</p>
+          <p style="margin-top:8px;">Go to the <strong>Learn</strong> tab and click <strong>"Listen & Learn"</strong> on some words first!</p>
+          <p style="margin-top:8px;font-size:0.9rem;">📝 ${reviewedSet.size} words reviewed so far.</p>
+        </div>
+      `;
+      quizDone = true;
+      return;
+    }
+    
+    // Shuffle and pick up to 50
     const shuffled = [...available].sort(() => Math.random() - 0.5);
-    quizQuestions = shuffled.slice(0, 50).map(item => {
-      // CRITICAL FIX: Only get distractors of the SAME TYPE (noun/verb/sentence)
+    const count = Math.min(50, shuffled.length);
+    quizQuestions = shuffled.slice(0, count).map(item => {
+      // Get distractors from reviewed words of the SAME TYPE
       const sameType = WORDS.filter(w => 
         w.type === item.type && 
-        w.word !== item.word
+        w.word !== item.word &&
+        reviewedSet.has(w.word)
       );
       let shuffledSame = sameType.sort(() => Math.random() - 0.5);
       let distractors = shuffledSame.slice(0, 3).map(w => w.word);
       
-      // Ultimate fallback - still same type
+      // If not enough, add more from same type
       while (distractors.length < 3) {
         const fallback = WORDS.filter(w => 
           w.type === item.type &&
           w.word !== item.word && 
-          !distractors.includes(w.word)
+          !distractors.includes(w.word) &&
+          reviewedSet.has(w.word)
         );
         if (fallback.length) {
           distractors.push(fallback[Math.floor(Math.random() * fallback.length)].word);
         } else {
-          // If literally no other words of this type exist, use "apple" as last resort
-          distractors.push('apple');
+          // Last resort: any reviewed word
+          const any = WORDS.filter(w => 
+            w.word !== item.word && 
+            !distractors.includes(w.word) &&
+            reviewedSet.has(w.word)
+          );
+          if (any.length) {
+            distractors.push(any[Math.floor(Math.random() * any.length)].word);
+          } else {
+            distractors.push('apple');
+          }
         }
       }
       
-      // Mark all as reviewed
+      // All distractors are already reviewed, but ensure they're marked
       distractors.forEach(d => {
         if (!reviewedSet.has(d)) {
           reviewedSet.add(d);
         }
       });
-      if (!reviewedSet.has(item.word)) {
-        reviewedSet.add(item.word);
-      }
       
       const options = [item.word, ...distractors].sort(() => Math.random() - 0.5);
       
@@ -656,7 +1283,7 @@
     
     let html = `
       <div class="quiz-progress">
-        <span>Question ${quizIndex + 1}/50</span>
+        <span>Question ${quizIndex + 1}/${quizQuestions.length}</span>
         <span>✅ ${quizCorrect}  ❌ ${quizWrong}</span>
       </div>
       <div class="quiz-question">${questionText}</div>
@@ -665,7 +1292,6 @@
     
     q.options.forEach((opt, i) => {
       const letter = String.fromCharCode(65 + i);
-      // For sentences, show quotes around options
       const displayOpt = q.type === 'sentence' ? `"${opt}"` : opt;
       html += `<div class="quiz-opt" data-value="${opt}">${letter}. ${displayOpt}</div>`;
     });
@@ -770,7 +1396,7 @@
   }
 
   function resetAll() {
-    if (confirm('Reset ALL progress?')) {
+    if (confirm('Reset ALL progress? This will clear learned and reviewed words.')) {
       learnedSet.clear();
       reviewedSet.clear();
       quizCount = 0;
@@ -824,7 +1450,13 @@
   renderTags();
   generateQuiz();
   
-  console.log('🎈 Word World ready! Words:', WORDS.length);
+  console.log('🎈 Word World ready!');
+  console.log('📚 Total words:', WORDS.length);
+  console.log('📝 Nouns:', NOUNS.length);
+  console.log('🏃 Verbs:', VERBS.length);
+  console.log('💬 Sentences:', SENTENCES.length);
+  console.log('✅ Learned:', learnedSet.size);
+  console.log('📝 Reviewed:', reviewedSet.size);
 })();
 </script>
 </body>
