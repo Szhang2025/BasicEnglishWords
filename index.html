@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>🎈 Word World – Kids English</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+      background: #f9f3e6;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+    }
+    .app-container {
+      max-width: 480px;
+      width: 100%;
+      background: #fff9f0;
+      border-radius: 40px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      padding: 24px 18px 30px;
+      border: 2px solid #ffdbb5;
+    }
+    h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #b45f2b;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    h1 small {
+      font-size: 0.9rem;
+      background: #f7d9b0;
+      padding: 4px 14px;
+      border-radius: 40px;
+      color: #6b3f1d;
+      font-weight: 500;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0 18px;
+    }
+    .tab-btn {
+      flex: 1;
+      background: #f0e2d0;
+      border: none;
+      padding: 12px 0;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #5a3f2b;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
+    }
+    .tab-btn.active {
+      background: #ffdbb5;
+      border-color: #c28a5a;
+      color: #4a2e1a;
+      box-shadow: 0 6px 0 #c28a5a55;
+      transform: translateY(-2px);
+    }
+    .tab-btn:active { transform: scale(0.96); }
+    .panel { display: none; animation: fade 0.2s ease; }
+    .panel.active { display: block; }
+    @keyframes fade { from { opacity: 0.4; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .word-card {
+      background: #fefcf7;
+      border-radius: 40px;
+      padding: 28px 16px 18px;
+      box-shadow: inset 0 -4px 0 #e2cbb4, 0 12px 24px rgba(160, 100, 60, 0.12);
+      border: 1px solid #ffe0c4;
+      text-align: center;
+      margin-bottom: 18px;
+    }
+    .word-big {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #3b281c;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+    .word-type {
+      background: #ffe6d1;
+      display: inline-block;
+      padding: 4px 18px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #7a4d2a;
+      margin: 10px 0 6px;
+    }
+    .word-example {
+      background: #f3ede6;
+      border-radius: 24px;
+      padding: 16px 14px;
+      margin: 14px 0 6px;
+      font-size: 1.2rem;
+      color: #2f241b;
+      border-left: 6px solid #dba978;
+      font-style: italic;
+    }
+    .word-example::before { content: "💬 "; font-style: normal; }
+    .audio-btn {
+      background: #b8d9c6;
+      border: none;
+      font-size: 2.2rem;
+      padding: 6px 24px;
+      border-radius: 60px;
+      margin: 10px 0 4px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #7b9c89;
+      transition: 0.07s linear;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 2px solid #96b8a4;
+    }
+    .audio-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #7b9c89; }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 12px 0 10px;
+    }
+    .nav-btn {
+      background: #f5e3d2;
+      border: 2px solid #dbb48b;
+      padding: 14px 6px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #493425;
+      flex: 1;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #bc9a7a;
+      transition: 0.06s linear;
+    }
+    .nav-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #bc9a7a; }
+    .counter {
+      background: #efdccb;
+      padding: 10px 10px;
+      border-radius: 60px;
+      font-weight: 600;
+      color: #3b2b1d;
+      text-align: center;
+      font-size: 0.95rem;
+      min-width: 80px;
+    }
+    .stats-badge {
+      background: #eddccb;
+      border-radius: 30px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 10px 0 6px;
+      border: 1px solid #dabb9b;
+    }
+    .learned-tag {
+      background: #b8d9c6;
+      border-radius: 30px;
+      padding: 8px 12px;
+      display: inline-block;
+      margin: 4px 5px 4px 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1f4633;
+    }
+    .reset-btn {
+      background: #f3d4c2;
+      border: none;
+      padding: 14px 12px;
+      border-radius: 60px;
+      font-weight: 700;
+      color: #482f1d;
+      font-size: 1rem;
+      margin: 12px 0 4px;
+      width: 100%;
+      border: 2px solid #c7a384;
+      box-shadow: 0 5px 0 #b48c6e;
+      transition: 0.06s linear;
+      cursor: pointer;
+    }
+    .reset-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #b48c6e; }
+    .quiz-area {
+      background: #fff9f0;
+      border-radius: 40px;
+      padding: 8px 4px 12px;
+    }
+    .quiz-question {
+      background: #fcf3e9;
+      border-radius: 32px;
+      padding: 20px 14px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2e1f13;
+      border: 2px dashed #dba978;
+      min-height: 80px;
+    }
+    .quiz-question .blank {
+      display: inline-block;
+      min-width: 80px;
+      border-bottom: 3px solid #b45f2b;
+      margin: 0 4px;
+      padding: 0 4px;
+      color: #b45f2b;
+      font-weight: 800;
+      background: #fdf6ed;
+      border-radius: 2px;
+    }
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 18px 0 12px;
+    }
+    .quiz-opt {
+      background: #fef7ef;
+      border: 3px solid #e6cfba;
+      padding: 16px 14px;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #2c1f14;
+      box-shadow: 0 4px 0 #bfa187;
+      transition: 0.06s linear;
+      cursor: pointer;
+      text-align: left;
+    }
+    .quiz-opt:active { transform: translateY(4px); box-shadow: 0 1px 0 #bfa187; }
+    .quiz-opt.correct { background: #b7d7b0; border-color: #3d8b40; box-shadow: 0 4px 0 #2a6b2d; }
+    .quiz-opt.wrong { background: #f8c9c9; border-color: #b34a4a; box-shadow: 0 4px 0 #8f3a3a; }
+    .quiz-opt.disabled { pointer-events: none; opacity: 0.8; }
+    .quiz-progress {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 4px;
+      font-weight: 600;
+      color: #5d402b;
+    }
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      color: #7f6246;
+      font-size: 0.8rem;
+    }
+    .learned-indicator {
+      color: #2b7a4b;
+      font-size: 1.2rem;
+      margin-left: 8px;
+    }
+    .quiz-result-box {
+      background: #f7edd7;
+      border-radius: 30px;
+      padding: 20px;
+      text-align: center;
+      margin: 10px 0;
+      border: 3px solid #dbb48b;
+    }
+    .quiz-result-box h2 {
+      color: #4a2e1a;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+    }
+    .quiz-result-box .big-score {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #b45f2b;
+    }
+    #quizFeedback {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: 30px;
+      background: #e9dccc;
+    }
+    .reviewed-tag {
+      background: #d4e8f7;
+      border-radius: 30px;
+      padding: 8px 12px;
+      display: inline-block;
+      margin: 4px 5px 4px 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1f3a5f;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container" id="app">
+  <h1>📚 Word World <small>kids</small></h1>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="learn">✨ Learn</button>
+    <button class="tab-btn" data-tab="quiz">🎯 Quiz (50)</button>
+  </div>
+
+  <div id="panel-learn" class="panel active">
+    <div class="word-card">
+      <div class="word-big" id="currentWord">apple <span class="learned-indicator" id="learnedStar"></span></div>
+      <div class="word-type" id="wordType">noun</div>
+      <div class="word-example" id="wordExample">I eat an apple every day.</div>
+      <button class="audio-btn" id="speakBtn">🔊 Listen & Learn</button>
+    </div>
+    <div class="nav-controls">
+      <button class="nav-btn" id="prevBtn">◀ Prev</button>
+      <span class="counter" id="wordCounter">1 / 200</span>
+      <button class="nav-btn" id="nextBtn">Next ▶</button>
+    </div>
+    <div class="stats-badge">
+      <span>📖 Learned: <strong id="learnedCount">0</strong></span>
+      <span>📝 Reviewed: <strong id="reviewedCount">0</strong></span>
+      <span>🏆 Quiz done: <strong id="quizCountDisplay">0</strong></span>
+    </div>
+    <div style="margin-top: 6px; display: flex; flex-wrap: wrap;" id="learnedTagsContainer"></div>
+    <div style="margin-top: 6px; display: flex; flex-wrap: wrap;" id="reviewedTagsContainer"></div>
+    <button class="reset-btn" id="resetLearnedBtn">🔄 Reset all progress</button>
+  </div>
+
+  <div id="panel-quiz" class="panel">
+    <div class="quiz-area" id="quizArea">
+      <div id="quizContent"></div>
+    </div>
+  </div>
+  <div class="footer">🌟 daily nouns · verbs · sentences</div>
+</div>
+
+<script>
+(function() {
+  // ============================================================
+  // COMPLETE WORD LIST - CLEANLY SEPARATED BY TYPE
+  // ============================================================
+  
+  const WORDS = [
+    // NOUNS
+    { word: "apple", type: "noun", group: "food", blank: "I eat a red ___ for a snack." },
+    { word: "pizza", type: "noun", group: "food", blank: "I order a ___ with cheese." },
+    { word: "burger", type: "noun", group: "food", blank: "I eat a ___ with fries." },
+    { word: "cake", type: "noun", group: "food", blank: "We have a ___ with candles." },
+    { word: "cookie", type: "noun", group: "food", blank: "I like a chocolate chip ___." },
+    { word: "milk", type: "noun", group: "food", blank: "I pour cold ___ on my cereal." },
+    { word: "juice", type: "noun", group: "food", blank: "I drink orange ___ in the morning." },
+    { word: "bread", type: "noun", group: "food", blank: "I make a sandwich with ___." },
+    { word: "cheese", type: "noun", group: "food", blank: "A mouse likes to eat ___." },
+    { word: "egg", type: "noun", group: "food", blank: "I eat a white ___ for breakfast." },
+    
+    { word: "dog", type: "noun", group: "animals", blank: "A ___ wags its tail when happy." },
+    { word: "cat", type: "noun", group: "animals", blank: "A ___ purrs when you pet it." },
+    { word: "fish", type: "noun", group: "animals", blank: "A ___ lives underwater." },
+    { word: "bird", type: "noun", group: "animals", blank: "A ___ can fly and build a nest." },
+    
+    { word: "soap", type: "noun", group: "bathroom", blank: "I use ___ to wash my hands." },
+    { word: "towel", type: "noun", group: "bathroom", blank: "I dry my hands with a ___." },
+    { word: "brush", type: "noun", group: "bathroom", blank: "I use a ___ for my hair." },
+    { word: "comb", type: "noun", group: "bathroom", blank: "I use a ___ for my hair." },
+    { word: "toothpaste", type: "noun", group: "bathroom", blank: "I put ___ on my toothbrush." },
+    { word: "shampoo", type: "noun", group: "bathroom", blank: "I wash my hair with ___." },
+    
+    { word: "shirt", type: "noun", group: "clothing", blank: "I wear a ___ on my body." },
+    { word: "pants", type: "noun", group: "clothing", blank: "I wear ___ on my legs." },
+    { word: "shoe", type: "noun", group: "clothing", blank: "I wear a ___ on my foot." },
+    { word: "sock", type: "noun", group: "clothing", blank: "I wear a ___ inside my shoe." },
+    { word: "hat", type: "noun", group: "clothing", blank: "I wear a ___ on my head." },
+    
+    { word: "book", type: "noun", group: "school", blank: "I read a ___ with many pages." },
+    { word: "pencil", type: "noun", group: "school", blank: "I write with a yellow ___." },
+    { word: "paper", type: "noun", group: "school", blank: "I draw on white ___." },
+    { word: "teacher", type: "noun", group: "school", blank: "A ___ helps students learn." },
+    
+    { word: "chair", type: "noun", group: "furniture", blank: "I sit on a ___ at the table." },
+    { word: "table", type: "noun", group: "furniture", blank: "I put my plate on the ___." },
+    { word: "lamp", type: "noun", group: "furniture", blank: "A ___ gives light in a dark room." },
+    
+    { word: "door", type: "noun", group: "house", blank: "I open the ___ to go outside." },
+    { word: "window", type: "noun", group: "house", blank: "I look outside through the ___." },
+    { word: "floor", type: "noun", group: "house", blank: "I walk on the ___ inside." },
+    
+    { word: "tree", type: "noun", group: "nature", blank: "A bird sits on a tall ___." },
+    { word: "sun", type: "noun", group: "nature", blank: "The ___ is very hot and bright." },
+    { word: "moon", type: "noun", group: "nature", blank: "The ___ glows at night." },
+    { word: "star", type: "noun", group: "nature", blank: "I see a tiny ___ in the sky." },
+    { word: "flower", type: "noun", group: "nature", blank: "A rose is a beautiful ___." },
+    
+    { word: "rain", type: "noun", group: "weather", blank: "___ falls from the sky." },
+    { word: "snow", type: "noun", group: "weather", blank: "White ___ covers the ground." },
+    { word: "wind", type: "noun", group: "weather", blank: "The strong ___ blows my hat." },
+    { word: "cloud", type: "noun", group: "weather", blank: "A fluffy white ___ floats." },
+    
+    { word: "car", type: "noun", group: "transport", blank: "My dad drives a blue ___." },
+    { word: "train", type: "noun", group: "transport", blank: "The ___ goes choo-choo." },
+    { word: "plane", type: "noun", group: "transport", blank: "A ___ flies through the sky." },
+    { word: "bicycle", type: "noun", group: "transport", blank: "I ride my ___ to the park." },
+    { word: "bus", type: "noun", group: "transport", blank: "I take the ___ to school." },
+    
+    { word: "ball", type: "noun", group: "play", blank: "I kick a ___ in the park." },
+    { word: "toy", type: "noun", group: "play", blank: "I play with a ___ in my room." },
+    { word: "game", type: "noun", group: "play", blank: "I play a fun ___ with friends." },
+    { word: "puzzle", type: "noun", group: "play", blank: "I put together a ___ with pieces." },
+    { word: "doll", type: "noun", group: "play", blank: "My sister plays with a ___." },
+    
+    // VERBS
+    { word: "run", type: "verb", group: "movement", blank: "I ___ fast in a race." },
+    { word: "walk", type: "verb", group: "movement", blank: "I ___ slowly to school." },
+    { word: "jump", type: "verb", group: "movement", blank: "I ___ over the puddle." },
+    { word: "swim", type: "verb", group: "movement", blank: "I ___ in the swimming pool." },
+    { word: "fly", type: "verb", group: "movement", blank: "I want to ___ like a bird." },
+    { word: "climb", type: "verb", group: "movement", blank: "I ___ up the ladder." },
+    
+    { word: "eat", type: "verb", group: "actions", blank: "I ___ my lunch at noon." },
+    { word: "drink", type: "verb", group: "actions", blank: "I ___ water when thirsty." },
+    { word: "sleep", type: "verb", group: "actions", blank: "I ___ in my bed at night." },
+    { word: "smile", type: "verb", group: "actions", blank: "I ___ when I'm happy." },
+    { word: "laugh", type: "verb", group: "actions", blank: "I ___ when I hear a joke." },
+    { word: "cry", type: "verb", group: "actions", blank: "I ___ when I'm sad." },
+    
+    { word: "cook", type: "verb", group: "kitchen", blank: "I ___ dinner for my family." },
+    { word: "bake", type: "verb", group: "kitchen", blank: "I ___ cookies in the oven." },
+    { word: "wash", type: "verb", group: "kitchen", blank: "I ___ the dishes after dinner." },
+    { word: "clean", type: "verb", group: "kitchen", blank: "I ___ the kitchen table." },
+    
+    { word: "open", type: "verb", group: "manipulation", blank: "I ___ the door to go inside." },
+    { word: "close", type: "verb", group: "manipulation", blank: "I ___ the door behind me." },
+    { word: "push", type: "verb", group: "manipulation", blank: "I ___ the heavy box." },
+    { word: "pull", type: "verb", group: "manipulation", blank: "I ___ the rope to ring." },
+    { word: "lift", type: "verb", group: "manipulation", blank: "I ___ the heavy bag." },
+    { word: "throw", type: "verb", group: "manipulation", blank: "I ___ the ball to my friend." },
+    { word: "catch", type: "verb", group: "manipulation", blank: "I ___ the ball when it comes." },
+    
+    { word: "help", type: "verb", group: "social", blank: "I ___ my friend with homework." },
+    { word: "share", type: "verb", group: "social", blank: "I ___ my snack with my sister." },
+    { word: "give", type: "verb", group: "social", blank: "I ___ a gift to my friend." },
+    { word: "thank", type: "verb", group: "social", blank: "I ___ my teacher for helping." },
+    
+    { word: "think", type: "verb", group: "mental", blank: "I ___ about the answer." },
+    { word: "know", type: "verb", group: "mental", blank: "I ___ the right answer." },
+    { word: "guess", type: "verb", group: "mental", blank: "I ___ the answer to the riddle." },
+    { word: "remember", type: "verb", group: "mental", blank: "I ___ to say thank you." },
+    
+    // SENTENCES - these use meaning matching, NOT fill-in-the-blank
+    { word: "Make a wish.", type: "sentence", group: "hopes", meaning: "Hope for something good." },
+    { word: "I have a dream.", type: "sentence", group: "hopes", meaning: "I want something big." },
+    { word: "Dream big.", type: "sentence", group: "hopes", meaning: "Think about big goals." },
+    { word: "I have hope.", type: "sentence", group: "hopes", meaning: "I believe things will be good." },
+    { word: "I am happy.", type: "sentence", group: "feelings", meaning: "I feel joy." },
+    { word: "She is kind.", type: "sentence", group: "feelings", meaning: "She is nice." },
+    { word: "Love is kind.", type: "sentence", group: "feelings", meaning: "Love means being nice." },
+    { word: "Peace is quiet.", type: "sentence", group: "feelings", meaning: "Peace is calm." },
+    { word: "I read a book.", type: "sentence", group: "school", meaning: "I look at words in a book." },
+    { word: "She writes a letter.", type: "sentence", group: "school", meaning: "She puts words on paper." },
+    { word: "Study hard.", type: "sentence", group: "school", meaning: "Learn with effort." },
+    { word: "Practice daily.", type: "sentence", group: "school", meaning: "Do it every day." },
+    { word: "The sun is bright.", type: "sentence", group: "nature", meaning: "The sun shines strongly." },
+    { word: "Rain falls down.", type: "sentence", group: "nature", meaning: "Water drops from the sky." },
+    { word: "Snow is cold.", type: "sentence", group: "nature", meaning: "Snow has low temperature." },
+    { word: "Help others.", type: "sentence", group: "social", meaning: "Assist other people." },
+    { word: "Share your snack.", type: "sentence", group: "social", meaning: "Give some of your food." },
+    { word: "Give a gift.", type: "sentence", group: "social", meaning: "Offer something as a present." },
+    { word: "Thank someone.", type: "sentence", group: "social", meaning: "Say you are grateful." }
+  ];
+
+  // ============================================================
+  // STATE
+  // ============================================================
+  let currentIndex = 0;
+  let learnedSet = new Set();
+  let reviewedSet = new Set();
+  let quizCount = 0;
+  
+  let quizQuestions = [];
+  let quizIndex = 0;
+  let quizCorrect = 0;
+  let quizWrong = 0;
+  let quizAnswered = false;
+  let quizDone = false;
+
+  // DOM
+  const currentWordEl = document.getElementById('currentWord');
+  const wordTypeEl = document.getElementById('wordType');
+  const wordExampleEl = document.getElementById('wordExample');
+  const wordCounter = document.getElementById('wordCounter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const speakBtn = document.getElementById('speakBtn');
+  const learnedCountEl = document.getElementById('learnedCount');
+  const reviewedCountEl = document.getElementById('reviewedCount');
+  const quizCountDisplay = document.getElementById('quizCountDisplay');
+  const learnedTagsContainer = document.getElementById('learnedTagsContainer');
+  const reviewedTagsContainer = document.getElementById('reviewedTagsContainer');
+  const resetLearnedBtn = document.getElementById('resetLearnedBtn');
+  const learnedStar = document.getElementById('learnedStar');
+  const quizContent = document.getElementById('quizContent');
+  const tabBtns = document.querySelectorAll('.tab-btn');
+
+  // ============================================================
+  // LEARN PANEL
+  // ============================================================
+  function updateLearnPanel() {
+    const item = WORDS[currentIndex];
+    currentWordEl.textContent = item.word;
+    wordTypeEl.textContent = item.type.charAt(0).toUpperCase() + item.type.slice(1);
+    wordExampleEl.textContent = item.blank ? item.blank.replace(/___/g, item.word) : (item.example || 'No example.');
+    wordCounter.textContent = `${currentIndex + 1} / ${WORDS.length}`;
+    
+    const isLearned = learnedSet.has(item.word);
+    learnedStar.textContent = isLearned ? ' ✅' : '';
+    currentWordEl.style.color = isLearned ? '#2b7a4b' : '#3b281c';
+    
+    renderTags();
+  }
+
+  function renderTags() {
+    const learned = Array.from(learnedSet);
+    learnedTagsContainer.innerHTML = learned.slice(0, 20).map(w => 
+      `<span class="learned-tag">✅ ${w}</span>`
+    ).join(' ');
+    if (learned.length > 20) {
+      learnedTagsContainer.innerHTML += `<span class="learned-tag">+${learned.length - 20} more</span>`;
+    }
+    learnedCountEl.textContent = learned.length;
+    
+    const reviewed = Array.from(reviewedSet);
+    reviewedTagsContainer.innerHTML = reviewed.slice(0, 20).map(w => 
+      `<span class="reviewed-tag">📝 ${w}</span>`
+    ).join(' ');
+    if (reviewed.length > 20) {
+      reviewedTagsContainer.innerHTML += `<span class="reviewed-tag">+${reviewed.length - 20} more</span>`;
+    }
+    reviewedCountEl.textContent = reviewed.length;
+    
+    quizCountDisplay.textContent = quizCount;
+  }
+
+  function goToPrev() {
+    currentIndex = (currentIndex > 0) ? currentIndex - 1 : WORDS.length - 1;
+    updateLearnPanel();
+  }
+
+  function goToNext() {
+    currentIndex = (currentIndex < WORDS.length - 1) ? currentIndex + 1 : 0;
+    updateLearnPanel();
+  }
+
+  function handleSpeakAndLearn() {
+    const item = WORDS[currentIndex];
+    if (!learnedSet.has(item.word)) {
+      learnedSet.add(item.word);
+      if (!reviewedSet.has(item.word)) {
+        reviewedSet.add(item.word);
+      }
+      renderTags();
+      updateLearnPanel();
+      saveProgress();
+    }
+    speakWord(item.word);
+  }
+
+  function speakWord(word) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.8;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // ============================================================
+  // QUIZ - FIXED: Options are ALWAYS same type
+  // ============================================================
+  function generateQuiz() {
+    let available = WORDS.filter(item => !learnedSet.has(item.word));
+    if (available.length < 50) available = WORDS;
+    
+    const shuffled = [...available].sort(() => Math.random() - 0.5);
+    quizQuestions = shuffled.slice(0, 50).map(item => {
+      // CRITICAL FIX: Only get distractors of the SAME TYPE (noun/verb/sentence)
+      const sameType = WORDS.filter(w => 
+        w.type === item.type && 
+        w.word !== item.word
+      );
+      let shuffledSame = sameType.sort(() => Math.random() - 0.5);
+      let distractors = shuffledSame.slice(0, 3).map(w => w.word);
+      
+      // Ultimate fallback - still same type
+      while (distractors.length < 3) {
+        const fallback = WORDS.filter(w => 
+          w.type === item.type &&
+          w.word !== item.word && 
+          !distractors.includes(w.word)
+        );
+        if (fallback.length) {
+          distractors.push(fallback[Math.floor(Math.random() * fallback.length)].word);
+        } else {
+          // If literally no other words of this type exist, use "apple" as last resort
+          distractors.push('apple');
+        }
+      }
+      
+      // Mark all as reviewed
+      distractors.forEach(d => {
+        if (!reviewedSet.has(d)) {
+          reviewedSet.add(d);
+        }
+      });
+      if (!reviewedSet.has(item.word)) {
+        reviewedSet.add(item.word);
+      }
+      
+      const options = [item.word, ...distractors].sort(() => Math.random() - 0.5);
+      
+      return { 
+        word: item.word, 
+        type: item.type,
+        group: item.group,
+        blank: item.blank || '',
+        meaning: item.meaning || '',
+        options: options 
+      };
+    });
+    
+    quizIndex = 0;
+    quizCorrect = 0;
+    quizWrong = 0;
+    quizAnswered = false;
+    quizDone = false;
+    renderTags();
+    renderQuiz();
+  }
+
+  function renderQuiz() {
+    if (quizIndex >= quizQuestions.length || quizDone) {
+      showResult();
+      return;
+    }
+
+    const q = quizQuestions[quizIndex];
+    const typeLabel = q.type.charAt(0).toUpperCase() + q.type.slice(1);
+    
+    let questionText = '';
+    if (q.type === 'sentence') {
+      questionText = `Which sentence means: "<strong>${q.meaning || '...'}</strong>"?`;
+    } else {
+      const blankHtml = q.blank.replace(/___/g, '<span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+      questionText = `Complete the sentence:<br><br> "${blankHtml}"<br><span style="font-size:0.8rem;font-weight:400;color:#7a5f44;">(${typeLabel} · ${q.group})</span>`;
+    }
+    
+    let html = `
+      <div class="quiz-progress">
+        <span>Question ${quizIndex + 1}/50</span>
+        <span>✅ ${quizCorrect}  ❌ ${quizWrong}</span>
+      </div>
+      <div class="quiz-question">${questionText}</div>
+      <div class="quiz-options" id="quizOptions">
+    `;
+    
+    q.options.forEach((opt, i) => {
+      const letter = String.fromCharCode(65 + i);
+      // For sentences, show quotes around options
+      const displayOpt = q.type === 'sentence' ? `"${opt}"` : opt;
+      html += `<div class="quiz-opt" data-value="${opt}">${letter}. ${displayOpt}</div>`;
+    });
+    
+    html += `
+      </div>
+      <button class="reset-btn" id="nextQuizBtn">Next ➡️</button>
+      <div id="quizFeedback">💡 Pick the right word</div>
+    `;
+    
+    quizContent.innerHTML = html;
+    quizAnswered = false;
+    
+    document.querySelectorAll('.quiz-opt').forEach(el => {
+      el.addEventListener('click', function() {
+        if (quizAnswered) return;
+        quizAnswered = true;
+        
+        const correct = quizQuestions[quizIndex].word;
+        const selected = this.dataset.value;
+        const isCorrect = selected === correct;
+        
+        if (isCorrect) quizCorrect++;
+        else quizWrong++;
+        
+        document.querySelectorAll('.quiz-opt').forEach(b => {
+          b.classList.add('disabled');
+          if (b.dataset.value === correct) b.classList.add('correct');
+          else if (b === this && !isCorrect) b.classList.add('wrong');
+        });
+        
+        const feedback = document.getElementById('quizFeedback');
+        feedback.textContent = isCorrect ? '✅ Correct! Great job!' : `❌ Oops! The answer is "${correct}"`;
+        feedback.style.background = isCorrect ? '#b7d7b0' : '#f8c9c9';
+      });
+    });
+    
+    document.getElementById('nextQuizBtn').addEventListener('click', function() {
+      if (!quizAnswered) {
+        const feedback = document.getElementById('quizFeedback');
+        feedback.textContent = '⚠️ Please answer first!';
+        feedback.style.background = '#f7e4b0';
+        return;
+      }
+      quizIndex++;
+      renderQuiz();
+    });
+  }
+
+  function showResult() {
+    quizDone = true;
+    const total = quizCorrect + quizWrong;
+    const percent = total > 0 ? Math.round((quizCorrect / total) * 100) : 0;
+    
+    quizCount++;
+    saveProgress();
+    
+    let stars = percent >= 90 ? '🌟🌟🌟' : percent >= 70 ? '🌟🌟' : percent >= 50 ? '🌟' : '💪 Keep trying!';
+    
+    quizContent.innerHTML = `
+      <div class="quiz-result-box">
+        <h2>🎉 Quiz Complete!</h2>
+        <div class="big-score">${percent}%</div>
+        <div style="font-size:1.2rem;margin:8px 0;">${stars}</div>
+        <div style="font-size:1.1rem;margin:12px 0;">
+          ✅ Correct: ${quizCorrect} &nbsp;|&nbsp; ❌ Wrong: ${quizWrong}
+        </div>
+        <div style="font-size:0.9rem;color:#7a5f44;margin-bottom:12px;">
+          📝 ${reviewedSet.size} words have been reviewed in quizzes!
+        </div>
+        <button class="reset-btn" id="newQuizBtn">🔄 New Quiz</button>
+      </div>
+    `;
+    
+    document.getElementById('newQuizBtn').addEventListener('click', generateQuiz);
+    quizCountDisplay.textContent = quizCount;
+    renderTags();
+  }
+
+  // ============================================================
+  // SAVE / LOAD
+  // ============================================================
+  function saveProgress() {
+    try {
+      localStorage.setItem('vocab_progress', JSON.stringify({
+        learned: Array.from(learnedSet),
+        reviewed: Array.from(reviewedSet),
+        quizCount: quizCount
+      }));
+    } catch(e) {}
+  }
+
+  function loadProgress() {
+    try {
+      const data = JSON.parse(localStorage.getItem('vocab_progress'));
+      if (data) {
+        if (data.learned) learnedSet = new Set(data.learned);
+        if (data.reviewed) reviewedSet = new Set(data.reviewed);
+        if (data.quizCount) quizCount = data.quizCount;
+      }
+    } catch(e) {}
+  }
+
+  function resetAll() {
+    if (confirm('Reset ALL progress?')) {
+      learnedSet.clear();
+      reviewedSet.clear();
+      quizCount = 0;
+      renderTags();
+      updateLearnPanel();
+      saveProgress();
+      generateQuiz();
+    }
+  }
+
+  // ============================================================
+  // TAB SWITCHING
+  // ============================================================
+  function switchTab(tabId) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + tabId).classList.add('active');
+    tabBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabId));
+    if (tabId === 'quiz') {
+      if (quizQuestions.length === 0 || quizDone) {
+        generateQuiz();
+      } else {
+        renderQuiz();
+      }
+    }
+  }
+
+  // ============================================================
+  // EVENT BINDINGS
+  // ============================================================
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      switchTab(this.dataset.tab);
+    });
+  });
+
+  prevBtn.addEventListener('click', goToPrev);
+  nextBtn.addEventListener('click', goToNext);
+  speakBtn.addEventListener('click', handleSpeakAndLearn);
+  resetLearnedBtn.addEventListener('click', resetAll);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') goToPrev();
+    else if (e.key === 'ArrowRight') goToNext();
+  });
+
+  // ============================================================
+  // INIT
+  // ============================================================
+  loadProgress();
+  updateLearnPanel();
+  renderTags();
+  generateQuiz();
+  
+  console.log('🎈 Word World ready! Words:', WORDS.length);
+})();
+</script>
+</body>
+</html>
